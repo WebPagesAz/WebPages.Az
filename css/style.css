@@ -35,7 +35,12 @@ img { max-width: 100%; display: block; }
   margin: 0 auto;
   padding: 0 24px;
 }
-.form-success { display: none; }
+.form-success {
+  display: none;
+}
+.form-success.show {
+  display: block;
+}
 
 .section { padding: 96px 0; }
 
