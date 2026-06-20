@@ -96,10 +96,41 @@ window.addEventListener('scroll', function () {
 scrollTopBtn.addEventListener('click', function () {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
+const form = document.getElementById('contact-form');
+const successMsg = document.getElementById('form-success');
 
-// =====================
-// SMOOTH NAV SCROLL
-// =====================
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const originalText = submitBtn.innerHTML;
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = 'Sending...';
+
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Accept': 'application/json' },
+    body: new FormData(form)
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log('Web3Forms response:', data);
+      if (data.success) {
+        form.reset();
+        form.style.display = 'none';
+        successMsg.style.display = 'block';
+      } else {
+        alert('Bir hata oluştu: ' + data.message);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      alert('Bağlantı hatası, lütfen tekrar deneyin.');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML =
+
 document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
   anchor.addEventListener('click', function (e) {
     var target = document.querySelector(anchor.getAttribute('href'));
