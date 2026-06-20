@@ -375,40 +375,5 @@
 
   <script src="js/main.js"></script>
 </body>
-  <script>
-  const form = document.getElementById('contact-form');
-  const successMsg = document.getElementById('form-success');
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = 'Sending...';
-
-    fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Accept': 'application/json' },
-      body: new FormData(form)
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          form.reset();
-          form.style.display = 'none';
-          successMsg.style.display = 'block';
-        } else {
-          alert('Bir hata oluştu, lütfen tekrar deneyin.');
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalText;
-        }
-      })
-      .catch(() => {
-        alert('Bağlantı hatası, lütfen tekrar deneyin.');
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-      });
-  });
-</script>
 </html>
